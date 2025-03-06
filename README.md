@@ -1,61 +1,48 @@
 # Task 2 - Data File Parser
 
-* Create a single function. The function must be capable of 'parsing' a UTF-8 encoded, plain text
-formatted file (see ```datafile.csv``` in the left-hand-side pane, semi-colon delimited).
+**Scenario:**
+You are developing an application for a travel agency that wants to display a concise list of package holidays on its mobile app. To achieve this, you need to process a CSV file containing detailed holiday information and generate a new CSV file with trimmed descriptions and re-ordered columns.
 
-* The function expects three parameters, two mandatory (the source ‘input’ file location and the
-exported ‘output’ file location), and an optional ‘delimiter’ with a semicolon default value.
+**Task:**
+1. Create a function named `parse_file` that accepts the following parameters:
+   * `input_file_path`: The path to the UTF-8 encoded input CSV file (e.g. `datafile_5.csv`).
+   * `output_file_path`: The path to the output CSV file where the processed data should be written (UTF-8 encoding).
+   * `max_description_length`: The maximum length of a description in the output file.
+   * `delimiter`: The delimiter used in the CSV file (default: ",").
 
-* Your function will parse the input file, perform necessary transformations to the data and write the
-transformed data to the output file.
-* The output file is expected to be a line-by-line copy of the source file with the data of each line
-swapping position, and the 'review' trimmed to 20 characters.
-Please examine the source (input) file in the left-hand-side pane to understand its content and layout.
-* An example of what the ***output*** file  should look like after your function is executed is shown below:
+2. The function should perform the following actions:
+   * Check if the input file exists. If not, return -1.
+   * Check if an output file already exists. If it does, delete it.
+   * Read the CSV file at `input_file_path` using the specified `delimiter`.
+   * For each holiday package, extract the `holiday_id`, `destination`, `description` and `price`.
+   * Trim whitespace from the `destination` and `description` 
+   * Truncate the `description` to `max_description_length` characters, adding an ellipsis (...) to the end if it was truncated.
+   * Re-order the columns to be: `holiday_id`, `price`, `destination`, and truncated `description`.
+   * Write the processed data to a new CSV file at `output_file_path` using the specified `delimiter`.
 
-![Output File Image](images/outputfile.png)
+3. The function should return the total number of holidays processed.
 
-
-## As part of your implementation, you are expected to:
-
-* Use no additional libraries or modules other than what is provided in the skeleton code.
-* Your function should remove (delete) any existing ‘output’ file before it starts a parse process.
-* Your function should open the source (input) file in ‘read-only’ mode specifying the correct encoding.
-* Your function should ignore (do not export) any header information (I.e. the first row of data).
-* Your function should close files (that are being read or written) as early as possible.
-* Your function should support the use of common delimiters, i.e., commas, etc – please note, the default input file
-provided only uses semicolons. The default delimiter ```(;)``` can be overridden as part of the
-calling arguments if a different input file with a different delimiter is provided.
-* Your function should trim (remove unwanted whitespace) and reverse the original column order (```review;sentiment ->
- sentiment;review[20] ```); each output should be on a new line.
-* Your function should return the total number of records exported.
-* Your function should return ```-1``` if the source (input) file does not exist.
-
-### Note, the above list may seem overwhelming at first. You must decompose the problem and tackle small parts of it one by one to succeed.
-
-Evidence of testing is expected. You should test your solution by making sufficient calls to your function(s) so that you are positive that it works as expected. These should be left at the bottom of ```dfp.py``` **commented out**. 
-
-Your final version should demonstrate evidence of being refactored; please note, refactoring is not bug-fixing - essentially it is reducing complexity and simplifying your codebase such that it is as efficient, readable, structured and as manageable as possible.
-
-Some example calls to the function:
-
+**Example Function Calls:**
 ```python
-parse_file('./datafile.csv', './outputfile.csv')  // function should return the value: 50
-parse_file('./doesnotexist.csv', './outputfile.csv') // function should return the value: -1
-parse_file('./doesnotexist.csv', './outputfile.csv', ',') // function should return the value: -1
+parse_file('./datafile_5.csv', './simplified_5.csv', 30)  # Returns 5
+parse_file('./datafile_EU.csv', './simplified_EU.csv', 30)  # Returns 100
+parse_file('./datafile_UK.csv', './simplified_UK.csv', 25, ';')  # Returns 50
+parse_file('./missing_file.csv', './simplified_catalogue.csv', 30)  # Returns -1
 ```
 
+**Exemplar Output File format for datafile_5.csv**
 
-## Additional criteria.
+```
+576,600,Paris,Explore the Eiffel Tower and t...
+187,500,Rome,Wander through the Colosseum a...
+895,400,Barcelona,Discover the Sagrada Familia a...
+739,450,Amsterdam,Cruise the canals and visit th...
+942,350,Lisbon,Ride the iconic Tram 28 and sa...
+```
 
-Once you have the version working (with tests) with the supplied ```datafile.csv```, look in the ```testing``` folder (in the left-hand side pane) and ensure that your function works as intended using these files. 
+## Additional Considerations:
 
-
-## Submission Checklist
-
-Prior to actually submitting your final attempt you should ensure you have reviewed and considered the following checklist.
-
-
-  1. Refactored ```parse_file``` function.
-  2. Does your solution follow accepted coding conventions?
-  3. Your 'test' code, commented out at the bottom of ```dfp.py```
+* Use no additional libraries or modules other than Python's standard library.
+* Your function should ignore (do not export) any header information (the first row).
+* The problem can be decomposed into smaller single-responsibility functions if you wish.
+* Your final version should demonstrate evidence of being refactored; please note, refactoring is not bug-fixing - essentially it is reducing complexity and simplifying your codebase such that it is as efficient, readable, structured and as manageable as possible.

@@ -1,9 +1,8 @@
 import os
 
-def parse_file(indata, outdata, delimiter = ';'):
+def parse_file(input_file_path, output_file_path, max_description_length, delimiter = ';'):
   pass # replace with your program logic
   
   
 
 
-print(parse_file("data_files_for_testing/testdata_1_comma.csv", "outputfile.csv"))
