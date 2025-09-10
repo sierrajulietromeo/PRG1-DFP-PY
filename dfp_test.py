@@ -55,7 +55,7 @@ def test_03_export_file_size():
     assert export_size > 0, "Output file should not be empty"
     assert export_size < original_size, "Output file should be smaller than the original file"
 
-# Test 4: Check behavior when the source file doesn't exist
+# Test 4: Check behaviour when the source file doesn't exist
 def test_04_source_file_exists():
     test_input = "./DOESNOTEXIST.csv"
     test_output = "./outputfile_test.csv"
